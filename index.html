@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>今日のアルカナ</title>
+<link rel="manifest" href="data:application/manifest+json,%7B%0A%20%20%22name%22%3A%20%22%E4%BB%8A%E6%97%A5%E3%81%AE%E3%82%A2%E3%83%AB%E3%82%AB%E3%83%8A%22%2C%0A%20%20%22short_name%22%3A%20%22%E3%82%A2%E3%83%AB%E3%82%AB%E3%83%8A%22%2C%0A%20%20%22start_url%22%3A%20%22.%22%2C%0A%20%20%22display%22%3A%20%22standalone%22%2C%0A%20%20%22background_color%22%3A%20%22%230d0818%22%2C%0A%20%20%22theme_color%22%3A%20%22%230d0818%22%2C%0A%20%20%22icons%22%3A%20%5B%0A%20%20%20%20%7B%22src%22%3A%20%22data%3Aimage/png%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAJp0lEQVR42u3dzVoiSRCF4d6KCoLaC1Fp%2Bmc1%2B76DuYu5ibn/Rc2AjSL1lxkZmRFZ9Z3nqcVsetA8b2UkIHz5QgghpExWi23zfl11X/yWyIQBPDefEAxAWF09gYFMK3dHAKcrDMHhWoKBTAVAPILtOwIgkEkAkEFgNyATA5CCAAhkEgBSEQCBVA9ACgEEpDIAL83bBQIyawAgILMHAAIyNwDXlwAEEEBAas36AAAEZM4AQEBmD2AYAgjIZAG8Nm/XGIIXVQT85okzACAgswdQFgG/feIQQAcEdQS8i5S4B/AqPhyDgEwEQH4EACDOAYCATDib693/xd5lRrAdRcBKEDMA9ggAQKwA3LwByIkgdBRiNYgNgDMEG0MErAaxA5CCQOlQzGoQWwDFEGxBQJwCECIQH4oBQGwBfGtKIxgahVgRYgDADwJWhBgBSEUw9MxQ%2BHmAFSGGAIYRrGMQCM8DrAgpmvsWAB0E0lGIFSHFAfhAAABiCCAeQZ7zACtCzAAEIZAciiNGIVaEFAawb3IjiBmFWBFiAECOQH4eAADxAOD2BGAMgcJ5IGAXYEVIeQCFEISMQqwIsQEgRZB8HgAA8QKgB4HOeSBsFGJFiC2AW4tRCADEKA9dAG7lo1DqLsCKkMIAvjcPvQDyIejbBVgRYgAgHEH4eUA2CrEixA%2BA2/K7ACtCjADkQBC/C7AixBCAdBTS2wVYEWIMYAhB/l2AFSE%2BAcQiCHqFGADEJQDtUSh8F2BFiBMA3wsdiAFATAH8aNzsAgAgxQEshwCUOhB/7AKsCDEAMIwg/y7w8R4hVoQUzeMBwCgCnWeEQl4XYEWIDYClj12AFSHFAXjaBVgRYgfAwS7AihATAHl2AQCQigA85t4FAsYgVoQ4AJC2C6SMQawIMQVgvQuwIqQwgJ%2BNp12AFSE%2BACwBQGYDIH4X0BmDAEA8A8i8C3SdA1gR4gLAo9EYxIoQIwAKh2GFMYgVIb4A5NoFep4OZUWIIYDYXUB/DGJFSEUAYp8NAgCpEcCy3DmAFSFF87UF4Ge5Z4M6zgGsCHEKIHYMkr0ewIoQnwCWZc4BrAhxACBxDAIAqQlA%2BhikcQ4AALEAsPICYAcA4hzAMsNBGADEFsAvWwA3ACAOAHx1chBmRUh5ACsAEAC4eCaIFSEAIKQsgF8AIACwfyoUAGTWAHYAIHYAxhAAgMwawCMACABiXwsAAAFA8NshWBFiA2AFAAKArG%2BHAABhBwAA4QwAAAIAngUi0wLA6wBk0gB4JZhMGgDvBSIA4N2gBAD8PQCZFQD%2BIowAAAAEAHwqBJkfAD4XiMwdAJ8MR2YKgM8GJQDg06HJTAHw/QBk7gD4hhgCAL4jjACAb4kkAOB7gsl8wjfFEwCojz%2By%2BR8ApDIA%2B%2BT5HwAka57uvjWH699/fh%2Bv6De/FZz/AUCS8/fvv5rDdSp%2BJwCVF7/0538AkKQ7/an8QwCOCALKn/XZHwAQzfHmdA0B%2BLQLWI8/N93jDwCIuPwhCE4AHrO9%2BJU2/gCAiIufBqD83R8ARL38qgBuAUAqKr4cQOzhV2v8AQBRLr8GAMu7PwBIUvnjAfi6%2BwOAJJU/5qnQ/vKn3f3vE%2B7%2B6%2BsXABB5%2BS8BDO8Csc/8JN79AUBylz9uDMp9948ffwBA%2BRsLAF7u/gAAgB0AB3d/AFD%2B4gDGy1/u7g8Ayl8UQMjok3z3jwBwBwAA5AZwjkA%2B%2Bmje/c8ALABA%2BZUBDO0C0aNP5rs/ACh/0TFINvpkuvsDAAB%2BAOzT7/7X8Xd/AADALwD10QcAlN8lAM3RJ%2B7uDwAAGAPYFzr4AoDyGwLoRqBd/vi7/93iGQAAcARgdPTRvfsDAABGY1BY%2BXPf/QEAAAMA5Uefdav8AKD8RgBUyq8w%2BgAAAD4AJM39aXd/AADAFkDC3K9x9wcAAEyeCRKXP3n0AQAAPAAoUP51QPkBAAC1t0B3XcMAvmWY%2B8NHn8O1AgAAUkseUvw2AFn5NUcfAAAgqeRaALTLv44o/zuA1WJ7/I%2B73uvsHzv7H71d/Q/q/cF3zXMXP/h96/ozJ3Y8b/xwvPr/uOL0i46dUad65Si55Hd4CWCTY%2B4PGH0%2BAGzPAQwheBlAMPTAdiYI5gjAQ8FjAMSVX3/0OXW%2BBaA%2BBPvZAKih5KEIbMt/CeBq24zvAm0EawcIunaDmgFMoeRdX5R3eWmWP3Tuv7z7H3rfASDzeaAAAs8AvMzjJUo%2BDmCnc%2Bi9FpS/BeBiF9AfhUoh2PcCKIWAkgue7Ykqf/roc%2Br8ZwBVIBiHUAIAJb94b0/Pq7uey98NQHgeqAVBTNko%2Bch7%2BCso/91A%2BQMA5DoU50cQCoCSCz%2Bzx7D84kNvH4CxXcALghgIIQBqLHiekucuvmX5n8fL3wlA5TyggUC2GwwBkL6Zy3vB40suKL7GXT%2Bl/Apzfw%2BAp8YKwVoNwQeEoYPwOYAqS/7pc/Z/KJQ%2BvfiS8q8Ny3/oe%2BuNU50IFhqH4kgECiPRGID6Sq5V9JTia448ecofMvd3lj9sF/CAIGw3KAXAblRJK71G8eUjj2X5BwAsjwBSRiENBLJzwSYjgjpLLiy9uPha835q%2BcdHn2UfgKkhiAEwjZJ3l16z%2BJMu/2cA9gikI9GmB0Dqq50PAX%2BLUNWdvljxfZQ/CEBWBAsJgtDdoA1B9JJ%2BxPVgjmIvK3zO4ovu%2BmPP8xcsf9AolIggeSQK3A2G3pzV%2BRrCyNsr4lFo4Gj/eymPr/WzRhc/7K6vN/Kkln8bX/4TAG8IwkeiXe/i3Y9eehjikCiUW6H0ouJnG3n0yh8NwC%2BCUhA6MGQCkb/w%2B6Cft1zxKyj/OQA9BCGHY%2BFuIISQhOHGc%2BFTSx9efOldP/awKy2/GEAxBJq7QQKEcAwDIHLCGPt/Bj72jUnx0%2B76JuWvB0HsWKSNIQKGyhX/uJJKnzzuVFx%2BewRxEDYZIMgxhILJ829vMhR/k1D8assvR2C1G3RAUMSQF0TuwstKH1/8DHd9y/L7QFASwi6iUGVhbETXzqT4kyq/CQIlCJ2H5SgMO2HxrK5dYulzFr/i8udH8JwRgRYEbyiEj12t%2BDp3/WrK34%2Bglt0gF4bcMBQel2rp7e765uXvf8W4wG5QCoIqCKNr4OfyUPzU8rv6LHoLBLoQJgAiW%2BEHim9QfrdfyBB0LqgGQgAGKxiBj0mn9NbF3/q965ffDSQQtDC8/ilUBIoYLIn/5lq18K%2Bdv8fU4k/yrj%2BWcAQ1QWijUIERVfRdpp%2BnYPFHyj%2B576yK2Q2SISyGIOTCMI4k/Cr5%2BF76i7/QKn7YXb9kH/8DKtJAtN50mBUAAAAASUVORK5CYII%3D%22%2C%20%22sizes%22%3A%20%22192x192%22%2C%20%22type%22%3A%20%22image/png%22%7D%2C%0A%20%20%20%20%7B%22src%22%3A%20%22data%3Aimage/png%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAeA0lEQVR42u3dSXJdR3aAYU3ZoCXIgUgBBECNPK8deBfeRO1/AFuiWWKD5jU3M0/zfRF34AgPimQK57%2BZ%2BR5%2B%2Bw0AAABGO3v98eHR59Xzj785AKgYADtEgDAAgIoBcEQICAIACB0Anx6%2BPuMiQBAAQNgA2CECNguB3/9%2B/O0DQIgAmLsb8C0ExAAAhAiA%2BbsBQgAAJjr/v2F//mQEfFoSAX89p2IAAMYHwPoI%2BPhoBAgBABgcABF3A06FAADMCYDIESAEAGBgAKwPgd%2BFAACsCoDouwFCAAAGBcDzEfBJBABA1QCIdiRwKgQAYF4AZIgAIQAAAwLgqBB4ZTcAAFIHQIYIEAIAMCAAHAkAQNMAWLsbIAIAYGkAZIgAIQAAfwfAHw9fHxEAAA0DYNsIOF9yL0AEAMABAVBhN0AEAMCBAVDrSEAEAMDOAbBtCPiEAACkCoA/1t4LEAEAsCoA%2BkSAEABAAJQ6EhABAHBEAPSIACsDgNoB8OaQAMh8JCACAOBrABwcAX%2BIAADI6OJbABwVAiIAANIFgAgQAQA0DYBfQkAEiAAA%2BgRAlN0AEQAAkwMgdgR8EgEAMCoAohwJRIwAqwaA8gFw/G7AgnsBIgAAXgqA6wcRcNivErZ6AEgeAN%2BekRHwhwgAgJgBsOdugAgQAABUCYAcRwIiAAA2D4AZRwIiAACCBoAI2PWTAVYSAMUCYPS9ABEAAEEDYM/dgKYRYDUBUDQARIAIAKBpAMS%2BFyACAGBYAIgAAQBA0wAQASIAgKYBEPtewMoIsLIAaBAAIkAEANA0ADJFwMeNI%2BDxS4FWFwBNAkAEiAAAmgZAgQjY8CjACgOgUQDEjIAzEQAAowNABJwJAADiBsDNw9dHBIy8D2ClARDK5X8CQASMjAArDYBwAfDtGRsB160jwEoDIGwAiAARAEDTAMgZATk%2BHmi1ARA6AFbfC6gXAXYBAEgSACJgTARYcQDECIC3TwfAnCOBOBEw4z6AFQdAnAAQASIAgKYBIAL2jwABAECJANghBPpGwHa7AFYdADEDQASIAACaBoAIGHofwMoDIG4ALIuArX93QLxLgVYeALEDQAQMuRRo5QEQPwACRsD58giwCwBAhwDYKQJuXAp8LQAAqBYAzSNg6/sAVh8AeQJABGx2H8DqA2BhAHx%2B6BkBMY4CrEAAFgbAqAi4FgECAIDYASACVhwFWIEABAiA/BFwniwCrEAAggRAlgiIeilwv6MAKxCAQAHQMQLW3AewAgEIFgAiYNZRgFUIQLAAEAF2AQBoGgC5I%2BA8QQRYhQAEDYAiERD0KMAqBGC6dzsHQIYIyHkUYBUCsCQARMDaCLAKAVgWAKsi4KJzBAgAACIEwNoIqH4f4OldAKsQgOUBUCcC8hwFWIUAhAgAETA3AqxCAMIEwNAISHkpUAAA0CQAqkdAlF0AqxCAcAGwIgK2/2RA7KMAqxCAkAGwLgJ6HAVYhQCEDYDKEbB6F8AqBGBBANw%2BiIA5EfDU7wqwCgFYFAAjIiDqpcB4RwFWIQALAyBuBEy/FDj5KMAqBGBxAESPgJpHAVYhAAECQATMPgqwCgGYHwAnjwVAlwiIcR/AKgRgTQBEjIDF9wFmHgVYhQCsC4AjI8BRwOG7AFYhAGsDoG0ErPtUgAAAIEYAiIDpRwFWIQAxAiBaBBQ/CrAKAYgTACeZLgXm3gWwCgGIFQAnjgJm7AJYhQDEC4B2ETD/uwGsQgCSBMCto4ANI8AqBCBmAIiAobsAViEAcQNgeAQkOwrYcBfAKgQgdgCc2AUYsQtgFQIQPwBEwOYRYBUCMN3VIQHQKgIEAABFA%2BBqkwBYdB%2BgwC6AVQjAsgC4sguw7GOBViEACwLg7vAACB4BWXYBrEIAFgVA1AhIdBRwxC6AVQjAwgC4e5h9H8CFQAEAQIgAuCt5HyD6UYBVCECYALhyFCAAAOgUAO4DzI4AqxCAIAGQ/D6AAACAQwPgzlHApAiwCgEIFgD1IkAAAMAeATArAjoeBViFAAQMALsAAgCApgFwZxdgYARYhQAEDoBoERD7QqAAAEAAOAoQAABkDgBHASN2AaxCABIEQK2jgAi7AFYhAKkC4CrbUUDQXQCrEIAkAWAXYMtdAKsQgEQBcLfRLsBt%2B10AqxCAlAFwZRfgqF0AqxCAZAGQ9Chg6C6AAACgRQDc2QU4MgKsQgD6BIBdAAEAQPYAuCvzscApuwACAID1AXD/kC0Cqu0CWIUA9AuAgBEwexfAKgRgfgCc/hUAdgFW7gJYhQAsDAARsOqLgaxCANYEgF2ApbsAViEA6wJABCzbBbAKAQgQAPcCYOYugAAAYHkA2AVYcgxgFQIw3fufA%2BB08S7ASZ9dAAEAQMAAcBQwaxfAKgRgSQCM3QXYIgJqXwa0CgFYFgDhjgIa7QJYhQAUDQC7AAIAgLABUH8XIOZlQKsQgOUB8D70hcCauwBWIQDxAsAuwPAIsAoBCBEAdgHm7gJYhQDEDAC7AAIAgB4BECoCin8k0CoEQABsFAECAAAODIDauwDHXgYUAAAUDoBxFwLtAggAAPIEgF0AAQBAjwCIuwsw6TLgsO8EEAAAZAqARLsAGY4BrEIAwgZA3V0AAQCAAFi2C9D5MqBVCEDoAAizC1DsMqBVCECuADht9pFAAQBAnQD48nD8LoDLgAIAgF4BcOoyoAAAIGkA2AU4/jsBBAAA3QLg1GXAY3YBrEIAFgbAF8cAAgAAAVDzI4ERPw1gFQKwOADsAqzYBbAKAUgVADV3AQQAAC0D4Ev5y4DRjgGsQgDSBcB7xwBHR4BVCECQAOi%2BCyAAABAAjgEEAAACYNZlwD7HAFYhAIECwDGAAABAAGS4DJj0GMAqBCBYAHwJ8Z0AoY8BBAAAAsAxwCERYBUCkDoA3gsAAQBAlQCIsQsw6hggwj0AqxAAAbD5LsCaewCXAgCA/AHwxTHAwF0AqxCAegFwuuBLgZJ9HNAqBKBEALx3DCAAAKgSAI4BDosAAQBA1wBIfwww9h6AVQiAAGj4cUCrEIDpPuwVAF/cAxAAAAiA4L8iePYxgAAAQAC4B7BrBFiFACwJAMcAAgAAAVD4GCDmPQCrEIDaAXDqHoAAACBUAOQ5Bsh3D0AAACAA3AMQAAB0DYD7pAHwWQAAIADcAxAAABQIAPcABAAAXQLgLGMA3JW6CGgVAtAoAO5dBBQAAEQJgA8t7gHEughoFQKQLADcAxAAACQNgD8f3AMQAAAIAAEgAADoGADuAcz9JIBVCEDCAPgiAI7cBbAKAVgUAFmPAWp8EsAqBEAANPwkgFUIgABoeBHQKgQgTAB8qPiNgAIAAB4JgDMXAQUAAM0CwEXAVR8FtAoBEAAtPgooAAAQAO0/CmgVAhAqAD74JIAAAKBJAJzl/CSAAACAgwPgz/qfBBAAANAwAE4EAAAsCYD3AkAAACAABAAABAuADwJg%2BJcBWYUACICGXwZkFQIQIwDOfBfA%2BC8DEgAAhAqABZ8EaP5dAFYhAD0D4FQAAIAAaPZlQFYhAAJAAABA3QB4LwAEAAACoPOXAVmFAIQMAN8FIAAAEAACQAAAIAAEgAAAoE4AnAkAAQCAABAAAgCA6gHwpwAQAAAIgFm/D0AAAEDDALhv8yuBBQAAAkAAAIAAmP8bAQUAAAJAAAgAAASAABAAAAgAASAAABAAAkAAACAAkgbArQAAQADYARAAAAgAASAAABAAAkAAACAABIAAAEAACAABAIAA8LsABAAAAkAACAAABMAvAXBXMwDeCAAAygfAvQAQAADkDIAvAkAAACAABIAAAKBHAJwKAAEAgAAQAAIAAAEgAAQAAMUD4L0AEAAACID0AfBWAAAgANZ/CZAAAAABIAAAQAAM/k2AAgAAAdDwVwELAAAEQNJvARwXAJfDAuBaAAAQLAB8B8DQXwUsAAAQAA0D4EIAABA9AHwJ0NjzfwEAgAAQAABQNwCuBIAAAEAAdP4SIAEAQIAAWPURwL7fASAAAIgRAKe%2BA0AAANA6AFwAFAAACAABMOBLgAQAAAKg4ZcACQAAFgfAFx8BXHD%2BLwAAWB8Apzk/AZD5I4ACAIBQAfDeJwAEAAACoN75vwAAQAC4ALjoI4ACAICFAXDM%2Bb8LgAIAgIYBcC8AjvgIoAAAIEwAuAA4b/tfAAAgAAQAAMwKgDnn/z4BIAAAKBMAHc//BQAABQPgfcVvAAz8CQABAECzACh8/r/HJwAEAABrAsD5/9LzfwEAwPIAeN/i/F8AAMBvzv/XXgAUAAA0CoA7FwAFAAACoND2/54XAAUAAEsDwPn/mvN/AQBA/QAIfv4vAAAQAM7/p5z/CwAAlgWA7X8BAIAAKLr9H/P8XwAA0CAA7pz/CwAAIsiz/b/n9/8n%2BAIgAQCAAGh6/i8AAKgbAMu3/1cGwLUAACBzANw7/x/w9i8AACgTALW2/wUAAIl8OPvz4cfnn%2B/83//mv%2B1/AQBAGL%2Bff374%2Bfn3//zr7%2Be54Z/ry39ybv/vev4vAADYe9h3CoCKH/8TAAAcPPBfDoAvR27/39v%2BFwAARBz6LwZA2%2B1/AQBAUP/9r/96%2BPZsGQBfI%2BDL4st/sbf/3wXY/hcAAE3f9LcOgB93Aea9/dfb/hcAAAwY/CMj4KkAeG/7P9z2vwAAaDb0pwTA0rf/yV/%2Bs2L7XwAAcMjgnxkA3v5jbv8LAICGg18A2P4XAAANB3/cAEh2%2BS/x9r8AAGg4%2BGcFgLf/uNv/AgCg6fAf/lHAdJf/em3/CwCAhoN/xi5A%2Bbf/5Nv/AgCg6eCPFQDd3/7nb/8LAIDGwz9jAHj7FwAABn%2BJALgvf/lPAAAQavinD4BNhn/e7f/LI4a/AABoPPzXB8C97f9Fb/8CAKDp4J/xUUBv/xu9/QsAAMO/zi5Ahbf/nLf/BQCA4Z8zAE5c/hMAAIZ/wgCI8PZ/l%2BPtXwAAGP4CYOHb/0mtt/%2BLN38IAICug39NAMR5%2B79q/PYvAACaD/9UAVDm7f/Yz/7fHD38BQBA8%2BE/96OAPd7%2BM2z/CwCA5sN/3i7AfZG3/xrb/wIAwPAPGQDe/rf/6t/vh78AADD8JwRA0uFf%2BO1fAAAY/gJg2tu/AAAQAG0CoM/b/7tEw18AABj%2BcQPgJFIA1Hr7FwAAhv%2BEjwJ6%2Bz/%2B8p8AADD8i%2B4CePufN/wFAIDhHyIAvP3PffsXAACG//IAGDf8vf0/NfwFAIAAKBwAEd7%2BBQCA4S8AvP1PH/6PB8C5AAAw/FcFwFXoi3%2B13/4FAIDhv%2ByjgKG2/oO9/Y8MgHMBACAAVu0CxN76r//2LwAADP/1AWDrf34AvBYAAIb/5ADw9r/28p8AABAA0wPA8A/w9i8AAAz/pQFwIgBWvf0LAAABMC0AvP3HefsXAACG/7SPAoYa/s3e/i9%2BGv4CAMDwn7YLYOs/ztu/AAAQAIsCINfwr/b2LwAADP%2B5AWDrP8TbvwAAEADzAqD71v/Kt38BAGD4rw0Ab/8R3v4FAIAAmBgA2w5/b/8CAMDwz/JRwDBb/5Xe/q/3Hv4CAEAAPBsA8XYBEm79B3z7FwAAhn%2BiY4DbMh/7W/32LwAABEC6APD2f/zbvwAAEABJAiDS8M//9i8AAAz/BAEwb/h3efsXAAACQABMHP5R3v4FAIDhH/yjgLb%2BR7z9CwAAARA4AGz9jxr%2B568/CQAAARDxGODW278AADD8uwaAt/8xw18AAAiAgAFQa/gLAAABIABeDICthr%2Bt/%2BeGvwAAMPwDBcCBw9/bvwAAEADxA%2BDxCLi19T9x%2BAsAAAEQ5KOA0YZ/pIt/AgDA8C95DJD43D/p278AAASAIb84AJz7HxUArwUAgABIFwARh3/9rX8BACAAFgbAbclz/3hb/wIAwPAPGACzzv3Lbf0f%2BfYvAAAB4FkWAO%2B8/S8b/gIAEACeZR8FNPwFAIAAaLgLYPivG/4CABAAnvgBEOXcf%2BHW/8VGF/8EAGD4G%2Bw5AuCtt/8Rb/8CABAAnrgBYPhv%2BrE/AQAgAJIGwKLhH2Hrf%2BO3fwEACABPzABoNfyvpw9/AQAIAE%2B8jwIeOPxt/QsAAAGQdReg3bn/mrd/AQAIAE%2BcAHhr63/W278AAAx/T4wAMPyHfub/5%2BdMAAACwLM8AFoO/3Vb/wIAEACe9QHwNtOlvxpb/2cCABAAnngB8NnW/4S3fwEACADPk4P%2BqWfzjwK2Gv7XIYa/AAAEgCG/17Pl/44fA8Dwn7X1LwAAAWDIBwmAyMO/xq1/AQBQKAAyDPktA2Dm8K967v/P81EAAALAkF/z7BMAl7b%2BN9v6FwCAACg85DPEza4BYPhv//b/nwD49n98fX78fzw/%2BNnhD/P/f/iLZ58t/xGe2e7Zd%2BHsuCDf7fU88nnYk8Oeqx%2Beu02eb/%2BxRv3lIh5Ptzf57H8nuwRA1eG/cus/RgBMj4AbERAkAESAx5DvMeSPiYDL6pf%2BFr79PxEAESNg0i6ACLAL4PEY8iEC4DL9pb/r0MP/mQBofBRQMALebRgBAsBjwBvyowOg8vCPsPUfKwDS3wfIFgG3AsBjyBvyIQNg2PBPee6/LABEgAgQAB5D3pCfFwCG/7zh/08AvPr4kCcCrkXAwggQAB5D3jMiAGoM/%2Bs0w/%2Bvuf9PALzquwvQMQIOvRcgADyGvGddANwEvvGf6O3/1c4B0PwooE0E3PoooMfNek/gCLhpculvztv/rwEgAnJGwNu8EeAHtiFvyHteDgDDf%2Bvh/3gA7HgU0O4%2BgAgQAB5D3rMgAKIP/4jn/p9eHP57BsC6XQAREOtIQAAY8oa855hB/9RTcvgHfft/OgBaHwWIgJciQAAY8Ia859Ah32H4XyQY/s8HQKqjABGwdQQ8FwICwJA35A35bYb853Lb/hm2/n8IgHW7ACJgaAQM2g0QAIa8x5B/6pn%2BW/2aDv9N3v6fDYBIRwEiIEgE3PoooCHvMeT3egz/WFv/uwdAwKOAuZcCs0XA%2BCOB738QCABD3lN1yD/2QvG5%2BfCPeulvv63//QKg/X2AIhHwdvsIEABu1ntyDvi/h/xj/50/9bPD8C9x7r9hAHS6D7A2AiIdCbwTAIa8J/eQf%2BrZaPhfGv4hz/0PDwAR8PLvDQgZAWOOBASAIe9JOuT3Gv6fEw5/l/52mee//ezwCPjU6lJgmQh4KwCcx3syDPkfv4vjn6O4cYPf8I9/6e/TdsN/610AEVA7AioHgCHvWT/kH3s2HvyGf73hPzwAoh0FlIuAHEcC2T8KaMh7Yg755wf/%2BOEfcPA3H/5bb/0fHwBB7wPUuRgYfzcgQwAY8p48Q3714M88/Bdd%2BHuTc/g/GQDbRMCnwJcCRUDUCDh0wBryntxDfuJ2v%2BF/9PBff%2Bnv07jhP2oXQAREjoDDQ2BWABjwnhU368cP%2BZyD3/APNvyXBYBLgeEiYOZuwKgAMOQ9tYf8xO3%2BpW/92YZ/3Ut/4wLApcBJERBvNyBCABiAhnyeIZ938E976zf8h5377xQAIkAEPP2DY%2BxFwKdCwAA05F8e8vffPXcJnhWD3/A3/Hdw9ur3h%2B0i4JMISHkk8PJuwIgA8Bjyjw740/uvz8ljz12iZ%2BDgX/7WP2bLv/fw/7TZ8P9rri8IABFQMgLeCgDPoCH//ZN%2B4K8e/IZ/ueE/OgBEQJYIWB8CIsCQP3rIPznosw57g9/wTzz8/wmAsRFw3igCLopGgAAw5Hce8s8O%2BgrDfuLgLz78LxoN//MJw/%2BIABABIuDpEBAAhvzuA77ioH966Gca/IZ/7eG/dwAcvQsgAoofCXwWAK1u1u/z3DV7Jgz9BoN//JZ/t%2BH/8fDhP3MXYOp9ABGwaQQIgOpD/s6z8m1/4OA3/I8d/vHP/Y8KABHQJwIuBYAvwvHEGvyh3voN/3bD/9cA6BgBme8FjA8BAdDhF9MY%2BlOHfqXBH/i8v8PwPzoATn8JABEwPQLeiABD3iBePfQzD/64b/2G/8jhf3psADweAR9FQLojgXEhIAAMeW/7Bn%2BWLf%2B6w//j9sP/WwCIABEgAAx5Qz/P4Df8ew//zQJgVQScN42AbCFQNQAMedv784d%2B9cHfb/ifZx/%2BTwfA1vcBRED0CLgsFgCGvKFv8Bv%2BIYb/huf%2BmweACJgdAbOOBI4PgcgBcNzH534eGAZp9oE/fehXH/whtvwN/%2BHD//sAyHcfIHcERN8NWB0Axwz5l354Xz37GLQG/trB760/0/Cfs/U/LABEQPUIODwERkfAyCG/63MlCFIM/NhDv8DgN/x7Dv%2BfA6BTBKQ5ElgUAlsEwOoBLwgMfIP/uMEfbsu/2fAfHgAiwG7AMQFw8JB/6YfrSYznShgMHfRXJ3H%2BrWcO/eMGf9O3fsN/RQCIgPH/AcTbDfg%2BAA4f8rv/GuLoIbB/FNwa9JGHvcEf4K3f8H/q0t/UAKgTAZnvBcyOgJudAuD4If95mxAIGgP7R0HWQNj/zxf532vnNVdp8Gcd/pMHf7vhLwJiRUCEEPh%2ByI/61cNVY2CbONg6IMb8b8j077Bi6Ocb/IZ/y%2BH/WACIgE67ATdH/aB6JwaCRkKT4R5s6IcZ/Mne%2Bg3/hQEgAuwGXB75g2tpCBSJAc%2BsoR9x8HvrN/wXOn3if9QmASACxu4GlA%2BBPWNAEBj4k4Z%2BtsE/963f8N/lxn%2BIABAB%2B0ZA5d2Amw1%2BqIkBj6Efb7s/4Ja/4b9%2B%2BIuAyPcChMBmMSAIig/826HrzeBffd5v%2BC8JgK4REOtIYNWxwM1GP/hGx4AgMPCjDv35g3/%2Bdv/oLf96wz9cANSNgCpHAit3AzKFwIExIAqCD/s5Qz/s4K/w1r9oy9/w3/woQAT03A242fCH46wYODIIRMHCYX87bY1cJh/8Ed/6Ow//s4zDP2oEuBdw5G7AkBC4SRgCGwWBMBgw6OcO/PBv%2B3sP/sDDP9SWv%2BG/4VFArwgQApV2BQYEQfU4GPH3tODf%2B9LgD/zWX3f4pwmAGBHwUQQ0DoF1MTAwCiLGwsw/58J/z0uDv/nw/2j4i4DKRwIH3A8YFgLVYmBRGKR9YvxbpRj6b/f773XN4M%2Bx5W/4iwC7AYfsBiQKgVgx0DkOYv4bXJYe/N76DX8RIAJShsDNoB/OkYMgcyDk%2BDu9zDb00wx%2Bw9/wFwFCIFEI5IqBLaOi15/50uAvMPgNfxEQLgIq7wZEDIGbwT/MOwaBgR9q6Kca/Lne%2Bg1/ERByN%2BBCCISMAUFg4E8b%2BgUH/0X4t37Df2kAiIBDdgOEwKoYEAVdhv3EoV998Bv%2BD6edA2B6BGQ8Eki1G3BgCBSNAVFQZdjHHfoxBn%2B%2Bt/75W/6Gf4zjgOQRIARyx4AwyDDoFwz9LoPf8O%2B97Z81AhwJVA6BGEHQNQ4uQz0L1l3KwW/L3/BffiSQOQKEgBioHwmXKZ74Q9/gzz/8bfm7HLhdBCQPgVwxcJNkkHnCDvyjh363wZ99%2BDvvLxIBM%2B4FdNsNyLorIAoM%2B25v%2B7nf%2Bg867zf8fULAbkCSEAgTA4LAwD9u6Bv8tbb8DX8RkGA3IF4I1IgBUdBm2G829PMN/lxv/Ya/TwhUj4ASIbDBrkDIGBAGJQb9BkM/5tv%2BisHfb/ib5ukjQAiIAXHQZsiXH/qNB7/hLwK67AZUCYFeMVAhEgr8fb%2BptsV/5OD31m/4RwyBuhFgN2BIDJQJAk%2BUgR9/6Nd5688w/E1rRwIxIqBkCFxvFwKCwMB/U3WLf/Xgt%2BVP9t2A10V2A8qGwMY7A2LA0C/xpl9r8GcY/qZykBCIciQQfTegXggMiAFR0P4NP9/QX3nOP/OtP8aWvyksAlLvBuwfAs1jQBCUH/jVh36Gwb/2rd/wTx8CZ%2BWPBITAITEwJAhEQeph/%2BvAv0m0tusN/khb/mcGf7UQsBvQNwQm7A4Ig9CDPvdbfqTB3%2B%2Bt33RNGgL1I0AIpAkCcTB1yNcZ%2BLUHf%2BThb5oWCIEhESAEioXAxCODDpGw8O/toszAN/jHDv6nh7/pWSwEztrsBkQJgQoxcP3IMFkcBbMCIsmf8aLkwL8%2B6L%2B3TIM/2lv/mcHfw5oISLobIATqRUHip%2B6wjzj4A771Dxr%2BpmL7EFh7JNAnBCrGwNNRIAy2HPQ3hdfOH80H/5otf1OQn2Kg6m6AEIgWBheGfMNB33PwR3rrN%2B14IQYq7wZsGAJiYHggXJQc7jfN/72jDf1Vg3/eW7%2BpxpogCLsbEDUEusfA4aEQ4/HvtOXQzzz4V771m1rECoKwuwFjQ0AMeAz9DYZ%2BmcE/5q3fVCJ%2BGLxuFAJ2BTwGf7C3/eCD/7VBP9P/AgHjhK84erALAAAAAElFTkSuQmCC%22%2C%20%22sizes%22%3A%20%22512x512%22%2C%20%22type%22%3A%20%22image/png%22%7D%0A%20%20%5D%0A%7D">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="今日のアルカナ">
+<meta name="theme-color" content="#0d0818">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Noto+Serif+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1020;
+    --gold: #c9a84c;
+    --gold-light: #e8d08a;
+    --cream: #f5f0e8;
+    --deep: #0d0818;
+    --mist: rgba(201,168,76,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--deep);
+    color: var(--cream);
+    font-family: 'Noto Serif JP', serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* 背景の星 */
+  .stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--gold-light);
+    animation: twinkle var(--d) ease-in-out infinite alternate;
+    opacity: 0;
+  }
+  @keyframes twinkle {
+    from { opacity: 0; transform: scale(0.8); }
+    to   { opacity: var(--o); transform: scale(1.2); }
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    max-width: 480px;
+    width: 100%;
+  }
+
+  .title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(0.8rem, 3vw, 1rem);
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.3s;
+  }
+
+  .date-display {
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    color: rgba(201,168,76,0.6);
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.5s;
+  }
+
+  /* カード */
+  .card-wrap {
+    perspective: 1000px;
+    margin: 0 auto 2rem;
+    width: 200px;
+    height: 340px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.7s;
+  }
+
+  .card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 1.2s cubic-bezier(0.4,0,0.2,1);
+    cursor: pointer;
+  }
+  .card.flipped { transform: rotateY(180deg); }
+  .card.reversed .card-front { transform: rotateY(180deg) rotateZ(180deg); }
+
+  .card-face {
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    backface-visibility: hidden;
+    border: 1px solid rgba(201,168,76,0.3);
+  }
+
+  /* 裏面 */
+  .card-back {
+    background: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .card-back::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 8px;
+  }
+  .card-back-pattern {
+    font-size: 5rem;
+    opacity: 0.15;
+    animation: spin 20s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* 表面 */
+  .card-front {
+    background: linear-gradient(160deg, #1e1530 0%, #0d0818 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 0.8rem;
+    transform: rotateY(180deg);
+  }
+
+  .card-number {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    opacity: 0.7;
+  }
+
+  .card-symbol {
+    font-size: 5rem;
+    line-height: 1;
+    filter: drop-shadow(0 0 20px rgba(201,168,76,0.5));
+    animation: glow 3s ease-in-out infinite alternate;
+  }
+  @keyframes glow {
+    from { filter: drop-shadow(0 0 10px rgba(201,168,76,0.3)); }
+    to   { filter: drop-shadow(0 0 30px rgba(201,168,76,0.8)); }
+  }
+
+  .card-name-ja {
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--cream);
+  }
+  .card-name-en {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    opacity: 0.6;
+    margin-top: 0.2rem;
+  }
+
+  .reversed-badge {
+    display: none;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    color: var(--deep);
+    background: var(--gold);
+    padding: 0.15rem 0.5rem;
+    border-radius: 99px;
+    margin-top: 0.3rem;
+  }
+  .card.reversed .reversed-badge { display: inline-block; }
+
+  /* テキスト */
+  .card-info {
+    opacity: 0;
+    transition: opacity 0.8s ease 0.5s;
+    margin-bottom: 1.5rem;
+  }
+  .card-info.visible { opacity: 1; }
+
+  .card-keyword {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+  }
+
+  .card-message {
+    font-size: 0.82rem;
+    line-height: 1.9;
+    color: rgba(245,240,232,0.8);
+    font-weight: 300;
+  }
+
+  /* ボタン */
+  .btn-calendar {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    padding: 0.6rem 1.4rem;
+    border-radius: 99px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0;
+    text-decoration: none;
+  }
+  .btn-calendar.visible {
+    opacity: 1;
+    transition: opacity 0.8s ease 0.8s, background 0.3s, color 0.3s;
+  }
+  .btn-calendar:hover {
+    background: var(--gold);
+    color: var(--deep);
+  }
+
+  .hint {
+    margin-top: 1.2rem;
+    font-size: 0.65rem;
+    color: rgba(201,168,76,0.35);
+    letter-spacing: 0.1em;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.9s;
+  }
+
+  .divider {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 1rem auto;
+    opacity: 0;
+    transition: opacity 0.8s ease 0.4s;
+  }
+  .divider.visible { opacity: 1; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .tap-hint {
+    font-size: 0.65rem;
+    color: rgba(201,168,76,0.4);
+    letter-spacing: 0.1em;
+    margin-top: 0.5rem;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.9s;
+  }
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="container">
+  <div class="title">Today's Arcana</div>
+  <div class="date-display" id="dateDisplay"></div>
+
+  <div class="card-wrap">
+    <div class="card" id="card" onclick="flipCard()">
+      <div class="card-face card-back">
+        <div class="card-back-pattern">☽</div>
+      </div>
+      <div class="card-face card-front">
+        <div class="card-number" id="cardNumber"></div>
+        <div class="card-symbol" id="cardSymbol"></div>
+        <div>
+          <div class="card-name-ja" id="cardNameJa"></div>
+          <div class="card-name-en" id="cardNameEn"></div>
+          <div class="reversed-badge">逆位置</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tap-hint" id="tapHint">カードをタップして開く</div>
+
+  <div class="divider" id="divider"></div>
+
+  <div class="card-info" id="cardInfo">
+    <div class="card-keyword" id="cardKeyword"></div>
+    <div class="card-message" id="cardMessage"></div>
+  </div>
+
+  <a class="btn-calendar" id="calendarBtn" href="#" target="_blank">
+    📅 カレンダーに記録する
+  </a>
+
+  <div class="hint">同じ日は何度開いても同じカードが出ます</div>
+</div>
+
+<script>
+const ARCANA = [
+  { num:"0",  nameJa:"愚者",     nameEn:"The Fool",          symbol:"🌟",
+    keywords:["自由","新出発","無限の可能性"],
+    normal:"何も持たずに一歩を踏み出すとき。軽やかに、恐れず、ただ前へ。",
+    reversed:"衝動が先走っていないか。立ち止まって足元を確認して。" },
+  { num:"I",  nameJa:"魔術師",   nameEn:"The Magician",       symbol:"⚡",
+    keywords:["意志","創造","実現"],
+    normal:"持っているすべての道具が揃っている。あとは意志を持って動くだけ。",
+    reversed:"力を持ちながら使いあぐねている。何かを恐れていないか。" },
+  { num:"II", nameJa:"女教皇",   nameEn:"The High Priestess", symbol:"🌙",
+    keywords:["直観","内なる知恵","神秘"],
+    normal:"内側の声に耳を澄ませて。答えはすでにあなたの中にある。",
+    reversed:"内に閉じすぎている。知恵を外へ少し向けてみて。" },
+  { num:"III",nameJa:"女帝",     nameEn:"The Empress",        symbol:"🌸",
+    keywords:["豊かさ","創造性","自然"],
+    normal:"あなたの周囲に豊かさが育ちつつある。受け取ることも大切に。",
+    reversed:"与えすぎて疲れていないか。自分自身も大切に。" },
+  { num:"IV", nameJa:"皇帝",     nameEn:"The Emperor",        symbol:"🏛️",
+    keywords:["秩序","基盤","安定"],
+    normal:"しっかりとした基盤が今日の行動を支えてくれる。",
+    reversed:"コントロールしすぎていないか。少し手放す勇気を。" },
+  { num:"V",  nameJa:"法王",     nameEn:"The Hierophant",     symbol:"🔑",
+    keywords:["伝統","教え","信念"],
+    normal:"誰かの言葉や教えの中に、今日のヒントがある。",
+    reversed:"慣習に縛られすぎていないか。自分の価値観を信じて。" },
+  { num:"VI", nameJa:"恋人",     nameEn:"The Lovers",         symbol:"💫",
+    keywords:["選択","調和","つながり"],
+    normal:"大切な選択の日。心が向く方向を信じて。",
+    reversed:"迷いがある。焦らず、自分の気持ちを整理する時間を。" },
+  { num:"VII",nameJa:"戦車",     nameEn:"The Chariot",        symbol:"🌊",
+    keywords:["意志","前進","克服"],
+    normal:"相反する力を一つにまとめ、前へ進む日。",
+    reversed:"力が分散している。一点に集中してみて。" },
+  { num:"VIII",nameJa:"力",      nameEn:"Strength",           symbol:"🦁",
+    keywords:["忍耐","優しい強さ","勇気"],
+    normal:"力ではなく、穏やかさで困難と向き合えるとき。",
+    reversed:"無理をしていないか。優しさを自分自身にも向けて。" },
+  { num:"IX", nameJa:"隠者",     nameEn:"The Hermit",         symbol:"🕯️",
+    keywords:["内省","孤独","知恵の光"],
+    normal:"ひとりで静かに考える時間が、大切な気づきをもたらす。",
+    reversed:"孤立になっていないか。ランタンを少し外に向けてみて。" },
+  { num:"X",  nameJa:"運命の輪", nameEn:"Wheel of Fortune",   symbol:"☯️",
+    keywords:["転換","循環","流れ"],
+    normal:"流れが変わろうとしている。波に乗る準備を。",
+    reversed:"流れに抵抗している。手放すことで動きが出てくる。" },
+  { num:"XI", nameJa:"正義",     nameEn:"Justice",            symbol:"⚖️",
+    keywords:["公正","均衡","誠実"],
+    normal:"誠実さが今日の羅針盤。正直に、公平に。",
+    reversed:"自分に対して厳しすぎていないか。バランスを見直して。" },
+  { num:"XII",nameJa:"吊られた男",nameEn:"The Hanged Man",    symbol:"🌿",
+    keywords:["停止","新視点","手放し"],
+    normal:"今は動かず、違う角度から見る時。逆さからの景色に意味がある。",
+    reversed:"ぶら下がりすぎている。そろそろ降りる頃かも。" },
+  { num:"XIII",nameJa:"死神",    nameEn:"Death",              symbol:"🍂",
+    keywords:["変容","終わりと始まり","再生"],
+    normal:"何かが終わり、新しいものが生まれようとしている。恐れずに。",
+    reversed:"変化に抵抗している。執着を少し手放してみて。" },
+  { num:"XIV",nameJa:"節制",     nameEn:"Temperance",         symbol:"✨",
+    keywords:["調和","バランス","統合"],
+    normal:"焦らず、少しずつ混ぜ合わせて。バランスの中に答えがある。",
+    reversed:"極端に偏っていないか。中道を探してみて。" },
+  { num:"XV", nameJa:"悪魔",     nameEn:"The Devil",          symbol:"🔗",
+    keywords:["執着","束縛","影"],
+    normal:"何かに縛られていると感じるなら、実は鎖は外せるかもしれない。",
+    reversed:"少しずつ自由になっている。焦らなくていい。" },
+  { num:"XVI",nameJa:"塔",       nameEn:"The Tower",          symbol:"⚡",
+    keywords:["崩壊","覚醒","解放"],
+    normal:"突然の変化も、不要なものを取り除いてくれる雷かもしれない。",
+    reversed:"内側で静かに何かが変わっている。急かさなくていい。" },
+  { num:"XVII",nameJa:"星",      nameEn:"The Star",           symbol:"⭐",
+    keywords:["希望","癒し","導き"],
+    normal:"嵐のあとの星空。光は確かにそこにある。",
+    reversed:"希望が見えにくい日。でも星は曇りの向こうにある。" },
+  { num:"XVIII",nameJa:"月",     nameEn:"The Moon",           symbol:"🌕",
+    keywords:["幻想","不安","無意識"],
+    normal:"見えているものが全てではない。直観を信じ、慎重に。",
+    reversed:"不安の霧が晴れてきた。少しずつ輪郭が見えてくる。" },
+  { num:"XIX",nameJa:"太陽",     nameEn:"The Sun",            symbol:"☀️",
+    keywords:["喜び","活力","成功"],
+    normal:"今日は自分らしさを全開に。光の中に出ていく日。",
+    reversed:"喜びが内側にこもっている。少し外へ出してみて。" },
+  { num:"XX", nameJa:"審判",     nameEn:"Judgement",          symbol:"🎺",
+    keywords:["覚醒","再生","呼びかけ"],
+    normal:"内側から何かが呼びかけている。その声に応える時。",
+    reversed:"呼びかけを無視していないか。自分の真実と向き合って。" },
+  { num:"XXI",nameJa:"世界",     nameEn:"The World",          symbol:"🌍",
+    keywords:["完成","統合","自由"],
+    normal:"内と外がひとつになる日。あなたはすでに十分な存在。",
+    reversed:"もう少しで完成する。焦らず最後の一歩を。" },
+];
+
+// 日付シード
+function dateToSeed(date) {
+  const y = date.getFullYear();
+  const m = date.getMonth() + 1;
+  const d = date.getDate();
+  return y * 10000 + m * 100 + d;
+}
+function seededRandom(seed) {
+  let x = Math.sin(seed + 1) * 10000;
+  return x - Math.floor(x);
+}
+
+const today = new Date();
+const seed = dateToSeed(today);
+const cardIndex = Math.floor(seededRandom(seed) * 22);
+const isReversed = seededRandom(seed + 999) > 0.5;
+const card = ARCANA[cardIndex];
+
+// 日付表示
+const dateStr = today.toLocaleDateString('ja-JP', {
+  year:'numeric', month:'long', day:'numeric', weekday:'long'
+});
+document.getElementById('dateDisplay').textContent = dateStr;
+
+// カード情報をセット
+document.getElementById('cardNumber').textContent = cardIndex === 0 ? '0' : card.num;
+document.getElementById('cardSymbol').textContent = card.symbol;
+document.getElementById('cardNameJa').textContent = card.nameJa;
+document.getElementById('cardNameEn').textContent = card.nameEn;
+document.getElementById('cardKeyword').textContent = card.keywords.join('　/　');
+document.getElementById('cardMessage').textContent = isReversed ? card.reversed : card.normal;
+
+if (isReversed) document.getElementById('card').classList.add('reversed');
+
+// カレンダーリンク
+function buildCalendarUrl() {
+  const pos = isReversed ? '（逆位置）' : '（正位置）';
+  const title = encodeURIComponent(`🃏 今日のアルカナ：${card.nameJa}${pos}`);
+  const msg = isReversed ? card.reversed : card.normal;
+  const detail = encodeURIComponent(`${card.nameJa} ${card.nameEn}\nキーワード：${card.keywords.join('・')}\n\n${msg}`);
+  const y = today.getFullYear();
+  const m = String(today.getMonth()+1).padStart(2,'0');
+  const d = String(today.getDate()).padStart(2,'0');
+  const dateParam = `${y}${m}${d}`;
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dateParam}/${dateParam}&details=${detail}&allday=true`;
+}
+document.getElementById('calendarBtn').href = buildCalendarUrl();
+
+// フリップ
+let flipped = false;
+function flipCard() {
+  if (flipped) return;
+  flipped = true;
+  document.getElementById('card').classList.add('flipped');
+  document.getElementById('tapHint').style.opacity = '0';
+  setTimeout(() => {
+    document.getElementById('divider').classList.add('visible');
+    document.getElementById('cardInfo').classList.add('visible');
+    document.getElementById('calendarBtn').classList.add('visible');
+  }, 800);
+}
+
+// 星を生成
+const starsEl = document.getElementById('stars');
+for (let i = 0; i < 80; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  const size = Math.random() * 2.5 + 0.5;
+  s.style.cssText = `
+    width:${size}px; height:${size}px;
+    left:${Math.random()*100}%;
+    top:${Math.random()*100}%;
+    --d:${(Math.random()*4+2).toFixed(1)}s;
+    --o:${(Math.random()*0.6+0.2).toFixed(2)};
+    animation-delay:${(Math.random()*5).toFixed(1)}s;
+  `;
+  starsEl.appendChild(s);
+}
+</script>
+</body>
+</html>
