@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>タロット・リーディング</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Noto+Serif+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1020;
+    --gold: #c9a84c;
+    --gold-light: #e8d08a;
+    --cream: #f5f0e8;
+    --deep: #0d0818;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--deep);
+    color: var(--cream);
+    font-family: 'Noto Serif JP', serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem 4rem;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  .stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--gold-light);
+    animation: twinkle var(--d) ease-in-out infinite alternate;
+    opacity: 0;
+  }
+  @keyframes twinkle {
+    from { opacity: 0; }
+    to   { opacity: var(--o); }
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 520px;
+  }
+
+  /* ヘッダー */
+  .header {
+    text-align: center;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.8s ease forwards;
+  }
+  .title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+  }
+  .subtitle {
+    font-size: 0.72rem;
+    color: rgba(201,168,76,0.5);
+    letter-spacing: 0.15em;
+  }
+
+  /* テーマ入力 */
+  .theme-section {
+    margin-bottom: 2rem;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+    opacity: 0;
+  }
+  .theme-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    opacity: 0.7;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  .theme-input {
+    width: 100%;
+    background: rgba(201,168,76,0.06);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 8px;
+    color: var(--cream);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.85rem;
+    padding: 0.7rem 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  .theme-input:focus {
+    border-color: rgba(201,168,76,0.6);
+  }
+  .theme-input::placeholder {
+    color: rgba(245,240,232,0.25);
+    font-size: 0.78rem;
+  }
+
+  /* ドローボタン */
+  .draw-btn {
+    display: block;
+    width: 100%;
+    margin-top: 1rem;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    padding: 0.75rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .draw-btn:hover {
+    background: var(--gold);
+    color: var(--deep);
+  }
+  .draw-btn:active {
+    transform: scale(0.98);
+  }
+
+  /* カードエリア */
+  .cards-area {
+    display: flex;
+    gap: 0.8rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .card-slot {
+    flex: 1;
+    max-width: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .position-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    color: rgba(201,168,76,0.55);
+    text-align: center;
+  }
+
+  .card-wrap {
+    width: 100%;
+    aspect-ratio: 2/3;
+    perspective: 800px;
+  }
+
+  .card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 1s cubic-bezier(0.4,0,0.2,1);
+    cursor: pointer;
+  }
+  .card.flipped { transform: rotateY(180deg); }
+  .card.reversed .card-front {
+    transform: rotateY(180deg) rotateZ(180deg);
+  }
+
+  .card-face {
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    backface-visibility: hidden;
+    border: 1px solid rgba(201,168,76,0.3);
+  }
+
+  .card-back {
+    background: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .card-back::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 6px;
+  }
+  .card-back-moon {
+    font-size: 2rem;
+    opacity: 0.2;
+  }
+
+  .card-front {
+    background: linear-gradient(160deg, #1e1530 0%, #0d0818 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.8rem 0.5rem;
+    transform: rotateY(180deg);
+  }
+
+  .card-num {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.5rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    opacity: 0.6;
+  }
+  .card-symbol {
+    font-size: clamp(2rem, 8vw, 3rem);
+    animation: glow 3s ease-in-out infinite alternate;
+  }
+  @keyframes glow {
+    from { filter: drop-shadow(0 0 6px rgba(201,168,76,0.3)); }
+    to   { filter: drop-shadow(0 0 18px rgba(201,168,76,0.8)); }
+  }
+  .card-name-ja {
+    font-size: clamp(0.65rem, 2.5vw, 0.8rem);
+    letter-spacing: 0.05em;
+    text-align: center;
+  }
+  .card-name-en {
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    opacity: 0.55;
+    text-align: center;
+  }
+  .rev-badge {
+    display: none;
+    font-size: 0.45rem;
+    background: var(--gold);
+    color: var(--deep);
+    padding: 0.1rem 0.35rem;
+    border-radius: 99px;
+    margin-top: 0.2rem;
+    letter-spacing: 0.1em;
+  }
+  .card.reversed .rev-badge { display: inline-block; }
+
+  /* カード詳細 */
+  .card-detail {
+    width: 100%;
+    font-size: 0.72rem;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    min-height: 3rem;
+  }
+  .card-detail.visible { opacity: 1; }
+  .detail-keyword {
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+  }
+  .detail-msg {
+    font-size: 0.68rem;
+    line-height: 1.7;
+    color: rgba(245,240,232,0.75);
+    font-weight: 300;
+  }
+
+  /* 区切り線 */
+  .divider {
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 1.2rem auto;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  .divider.visible { opacity: 1; }
+
+  /* リセット */
+  .reset-btn {
+    display: block;
+    margin: 0 auto;
+    background: transparent;
+    border: 1px solid rgba(201,168,76,0.3);
+    color: rgba(201,168,76,0.5);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    padding: 0.5rem 1.2rem;
+    border-radius: 99px;
+    cursor: pointer;
+    transition: all 0.3s;
+    opacity: 0;
+  }
+  .reset-btn.visible {
+    opacity: 1;
+  }
+  .reset-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .hint {
+    text-align: center;
+    font-size: 0.62rem;
+    color: rgba(201,168,76,0.3);
+    letter-spacing: 0.1em;
+    margin-top: 0.6rem;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  .hint.visible { opacity: 1; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .cards-container {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    animation: none;
+  }
+  .cards-container.visible { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="container">
+  <div class="header">
+    <div class="title">Tarot Reading</div>
+    <div class="subtitle">過去　／　現在　／　未来</div>
+  </div>
+
+  <div class="theme-section">
+    <label class="theme-label">テーマ</label>
+    <input class="theme-input" id="themeInput" type="text" placeholder="占いたいテーマを入力…" maxlength="60">
+    <button class="draw-btn" id="drawBtn" onclick="drawCards()">✦ カードを引く</button>
+  </div>
+
+  <div class="cards-container" id="cardsContainer">
+    <div class="cards-area" id="cardsArea"></div>
+    <div class="divider" id="divider"></div>
+    <button class="reset-btn" id="resetBtn" onclick="reset()">もう一度引く</button>
+    <div class="hint" id="hint">カードをタップして開く</div>
+  </div>
+</div>
+
+<script>
+const ARCANA = [
+  { num:"0",  nameJa:"愚者",      nameEn:"The Fool",           symbol:"🌟",
+    keywords:["自由","新出発","可能性"],
+    normal:"何も持たずに一歩を踏み出すとき。軽やかに、恐れず、ただ前へ。",
+    reversed:"衝動が先走っていないか。立ち止まって足元を確認して。" },
+  { num:"I",  nameJa:"魔術師",    nameEn:"The Magician",        symbol:"⚡",
+    keywords:["意志","創造","実現"],
+    normal:"持っているすべての道具が揃っている。あとは意志を持って動くだけ。",
+    reversed:"力を持ちながら使いあぐねている。何かを恐れていないか。" },
+  { num:"II", nameJa:"女教皇",    nameEn:"The High Priestess",  symbol:"🌙",
+    keywords:["直観","内なる知恵","神秘"],
+    normal:"内側の声に耳を澄ませて。答えはすでにあなたの中にある。",
+    reversed:"内に閉じすぎている。知恵を外へ少し向けてみて。" },
+  { num:"III",nameJa:"女帝",      nameEn:"The Empress",         symbol:"🌸",
+    keywords:["豊かさ","創造性","自然"],
+    normal:"あなたの周囲に豊かさが育ちつつある。受け取ることも大切に。",
+    reversed:"与えすぎて疲れていないか。自分自身も大切に。" },
+  { num:"IV", nameJa:"皇帝",      nameEn:"The Emperor",         symbol:"🏛️",
+    keywords:["秩序","基盤","安定"],
+    normal:"しっかりとした基盤が今日の行動を支えてくれる。",
+    reversed:"コントロールしすぎていないか。少し手放す勇気を。" },
+  { num:"V",  nameJa:"法王",      nameEn:"The Hierophant",      symbol:"🔑",
+    keywords:["伝統","教え","信念"],
+    normal:"誰かの言葉や教えの中に、今日のヒントがある。",
+    reversed:"慣習に縛られすぎていないか。自分の価値観を信じて。" },
+  { num:"VI", nameJa:"恋人",      nameEn:"The Lovers",          symbol:"💫",
+    keywords:["選択","調和","つながり"],
+    normal:"大切な選択の時。心が向く方向を信じて。",
+    reversed:"迷いがある。焦らず、自分の気持ちを整理する時間を。" },
+  { num:"VII",nameJa:"戦車",      nameEn:"The Chariot",         symbol:"🌊",
+    keywords:["意志","前進","克服"],
+    normal:"相反する力を一つにまとめ、前へ進む時。",
+    reversed:"力が分散している。一点に集中してみて。" },
+  { num:"VIII",nameJa:"力",       nameEn:"Strength",            symbol:"🦁",
+    keywords:["忍耐","優しい強さ","勇気"],
+    normal:"力ではなく、穏やかさで困難と向き合えるとき。",
+    reversed:"無理をしていないか。優しさを自分自身にも向けて。" },
+  { num:"IX", nameJa:"隠者",      nameEn:"The Hermit",          symbol:"🕯️",
+    keywords:["内省","孤独","知恵の光"],
+    normal:"ひとりで静かに考える時間が、大切な気づきをもたらす。",
+    reversed:"孤立になっていないか。ランタンを少し外に向けてみて。" },
+  { num:"X",  nameJa:"運命の輪",  nameEn:"Wheel of Fortune",    symbol:"☯️",
+    keywords:["転換","循環","流れ"],
+    normal:"流れが変わろうとしている。波に乗る準備を。",
+    reversed:"流れに抵抗している。手放すことで動きが出てくる。" },
+  { num:"XI", nameJa:"正義",      nameEn:"Justice",             symbol:"⚖️",
+    keywords:["公正","均衡","誠実"],
+    normal:"誠実さが今日の羅針盤。正直に、公平に。",
+    reversed:"自分に対して厳しすぎていないか。バランスを見直して。" },
+  { num:"XII",nameJa:"吊られた男",nameEn:"The Hanged Man",      symbol:"🌿",
+    keywords:["停止","新視点","手放し"],
+    normal:"今は動かず、違う角度から見る時。逆さからの景色に意味がある。",
+    reversed:"ぶら下がりすぎている。そろそろ降りる頃かも。" },
+  { num:"XIII",nameJa:"死神",     nameEn:"Death",               symbol:"🍂",
+    keywords:["変容","終わりと始まり","再生"],
+    normal:"何かが終わり、新しいものが生まれようとしている。恐れずに。",
+    reversed:"変化に抵抗している。執着を少し手放してみて。" },
+  { num:"XIV",nameJa:"節制",      nameEn:"Temperance",          symbol:"✨",
+    keywords:["調和","バランス","統合"],
+    normal:"焦らず、少しずつ混ぜ合わせて。バランスの中に答えがある。",
+    reversed:"極端に偏っていないか。中道を探してみて。" },
+  { num:"XV", nameJa:"悪魔",      nameEn:"The Devil",           symbol:"🔗",
+    keywords:["執着","束縛","影"],
+    normal:"縛られていると感じるなら、実は鎖は外せるかもしれない。",
+    reversed:"少しずつ自由になっている。焦らなくていい。" },
+  { num:"XVI",nameJa:"塔",        nameEn:"The Tower",           symbol:"⚡",
+    keywords:["崩壊","覚醒","解放"],
+    normal:"突然の変化も、不要なものを取り除いてくれる雷かもしれない。",
+    reversed:"内側で静かに何かが変わっている。急かさなくていい。" },
+  { num:"XVII",nameJa:"星",       nameEn:"The Star",            symbol:"⭐",
+    keywords:["希望","癒し","導き"],
+    normal:"嵐のあとの星空。光は確かにそこにある。",
+    reversed:"希望が見えにくい日。でも星は曇りの向こうにある。" },
+  { num:"XVIII",nameJa:"月",      nameEn:"The Moon",            symbol:"🌕",
+    keywords:["幻想","不安","無意識"],
+    normal:"見えているものが全てではない。直観を信じ、慎重に。",
+    reversed:"不安の霧が晴れてきた。少しずつ輪郭が見えてくる。" },
+  { num:"XIX",nameJa:"太陽",      nameEn:"The Sun",             symbol:"☀️",
+    keywords:["喜び","活力","成功"],
+    normal:"自分らしさを全開に。光の中に出ていく時。",
+    reversed:"喜びが内側にこもっている。少し外へ出してみて。" },
+  { num:"XX", nameJa:"審判",      nameEn:"Judgement",           symbol:"🎺",
+    keywords:["覚醒","再生","呼びかけ"],
+    normal:"内側から何かが呼びかけている。その声に応える時。",
+    reversed:"呼びかけを無視していないか。自分の真実と向き合って。" },
+  { num:"XXI",nameJa:"世界",      nameEn:"The World",           symbol:"🌍",
+    keywords:["完成","統合","自由"],
+    normal:"内と外がひとつになる。あなたはすでに十分な存在。",
+    reversed:"もう少しで完成する。焦らず最後の一歩を。" },
+];
+
+const POSITIONS = ["過去", "現在", "未来"];
+let drawnCards = [];
+let flippedCount = 0;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function drawCards() {
+  const indices = shuffle([...Array(22).keys()]).slice(0, 3);
+  drawnCards = indices.map(i => ({
+    card: ARCANA[i],
+    reversed: Math.random() > 0.5
+  }));
+  flippedCount = 0;
+  renderCards();
+}
+
+function renderCards() {
+  const area = document.getElementById('cardsArea');
+  area.innerHTML = '';
+
+  drawnCards.forEach((drawn, i) => {
+    const { card, reversed } = drawn;
+
+    const slot = document.createElement('div');
+    slot.className = 'card-slot';
+
+    const posLabel = document.createElement('div');
+    posLabel.className = 'position-label';
+    posLabel.textContent = POSITIONS[i];
+
+    const wrap = document.createElement('div');
+    wrap.className = 'card-wrap';
+
+    const cardEl = document.createElement('div');
+    cardEl.className = 'card' + (reversed ? ' reversed' : '');
+    cardEl.id = `card-${i}`;
+    cardEl.onclick = () => flipCard(i);
+
+    cardEl.innerHTML = `
+      <div class="card-face card-back">
+        <div class="card-back-moon">☽</div>
+      </div>
+      <div class="card-face card-front">
+        <div class="card-num">${card.num}</div>
+        <div class="card-symbol">${card.symbol}</div>
+        <div>
+          <div class="card-name-ja">${card.nameJa}</div>
+          <div class="card-name-en">${card.nameEn}</div>
+          <div class="rev-badge">逆位置</div>
+        </div>
+      </div>
+    `;
+
+    wrap.appendChild(cardEl);
+
+    const detail = document.createElement('div');
+    detail.className = 'card-detail';
+    detail.id = `detail-${i}`;
+    detail.innerHTML = `
+      <div class="detail-keyword">${card.keywords.join('　/　')}</div>
+      <div class="detail-msg">${reversed ? card.reversed : card.normal}</div>
+    `;
+
+    slot.appendChild(posLabel);
+    slot.appendChild(wrap);
+    slot.appendChild(detail);
+    area.appendChild(slot);
+  });
+
+  document.getElementById('cardsContainer').classList.add('visible');
+  document.getElementById('hint').classList.add('visible');
+  document.getElementById('divider').classList.remove('visible');
+  document.getElementById('resetBtn').classList.remove('visible');
+}
+
+function flipCard(i) {
+  const cardEl = document.getElementById(`card-${i}`);
+  if (cardEl.classList.contains('flipped')) return;
+  cardEl.classList.add('flipped');
+  flippedCount++;
+  setTimeout(() => {
+    document.getElementById(`detail-${i}`).classList.add('visible');
+  }, 700);
+  if (flippedCount === 3) {
+    setTimeout(() => {
+      document.getElementById('divider').classList.add('visible');
+      document.getElementById('resetBtn').classList.add('visible');
+      document.getElementById('hint').classList.remove('visible');
+    }, 800);
+  }
+}
+
+function reset() {
+  document.getElementById('cardsContainer').classList.remove('visible');
+  document.getElementById('divider').classList.remove('visible');
+  document.getElementById('resetBtn').classList.remove('visible');
+  document.getElementById('hint').classList.remove('visible');
+  setTimeout(drawCards, 300);
+}
+
+// 星
+const starsEl = document.getElementById('stars');
+for (let i = 0; i < 70; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  const size = Math.random() * 2 + 0.5;
+  s.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${(Math.random()*4+2).toFixed(1)}s;--o:${(Math.random()*0.5+0.15).toFixed(2)};animation-delay:${(Math.random()*5).toFixed(1)}s;`;
+  starsEl.appendChild(s);
+}
+</script>
+</body>
+</html>
